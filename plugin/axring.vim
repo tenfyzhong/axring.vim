@@ -29,3 +29,6 @@ if !hasmapto("<Plug>(axring#ctrl-x)", 'n')
     silent! nmap <c-x> <Plug>(axring#ctrl-x)
 endif
 
+if !hlexists('axring_ring')
+  highlight axring_ring term=bold cterm=bold ctermfg=Red guifg=Red
+endif
