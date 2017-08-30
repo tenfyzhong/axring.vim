@@ -83,56 +83,82 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
     return []
   endif
 
+  let add_index = get(g:, 'axring_ring_echo_index', 1)
+
+
+  let text = a:ring[a:current]
+  if add_index
+    let text = '0:' . text
+  endif
+
+  let result = [text]
+
   let max_len = a:max_width - 2
   let right_i = a:current + 1
   let left_i = a:current - 1
-  let result = [a:ring[a:current]]
   let highlight_i = 0
 
   let current_len = len(a:ring[a:current])
 
+
   while right_i < ring_len && left_i >= 0 && current_len < max_len
-    let right_len = len(a:ring[right_i])
+    let text = a:ring[right_i]
+    if add_index 
+        let text = printf('%d:%s', right_i-a:current, text)
+    endif
+    let right_len = len(text)
     if current_len + right_len + 2 > max_len
       break
     endif
     let current_len += right_len + 2
-    call add(result, a:ring[right_i])
+    call add(result, text)
     let right_i += 1
 
-    let left_len = len(a:ring[left_i])
+    let text = a:ring[left_i]
+    if add_index
+        let text = printf('%d:%s', a:current-left_i, text)
+    endif
+    let left_len = len(text)
     if current_len + left_len + 2 > max_len
       break
     endif
     let current_len += left_len + 2
-    call insert(result, a:ring[left_i])
+    call insert(result, text)
     let left_i -= 1
     let highlight_i += 1
   endwhile
 
   while current_len < max_len && right_i < ring_len
-    let right_len = len(a:ring[right_i])
+    let text = a:ring[right_i]
+    if add_index
+      let text = printf('%d:%s', right_i-a:current, text)
+    endif
+    let right_len = len(text)
     if current_len + right_len + 2 > max_len
       break
     endif
     let current_len += right_len + 2
-    call add(result, a:ring[right_i])
+    call add(result, text)
     let right_i += 1
   endwhile
 
   while current_len < max_len && left_i >= 0
-    let left_len = len(a:ring[left_i])
+    let text = a:ring[left_i]
+    if add_index
+      let text = printf('%d:%s', a:current-left_i, text)
+    endif
+    let left_len = len(text)
     if current_len + left_len + 2 > max_len
       break
     endif
     let current_len += left_len + 2
-    call insert(result, a:ring[left_i])
+    call insert(result, text)
     let left_i -= 1
     let highlight_i += 1
   endwhile
 
   return [result, highlight_i]
-endfunction "}}}
+endfunction "}}} 
 
 function! axring#switch(key, count) abort "{{{
   let global = get(g:, 'axring_rings', [])
