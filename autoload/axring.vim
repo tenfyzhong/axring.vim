@@ -171,7 +171,7 @@ function! axring#switch(key, count) abort "{{{
       let ring_len = len(ring)
       while i < ring_len
         if word ==? ring[i]
-         let next_i = (i+ring_len+a:count*direction)%ring_len
+          let next_i = (i+ring_len+a:count*direction)%ring_len
           let next_word = ring[next_i]
           let next_word = <SID>sync_case(word, next_word)
           call cursor(lnum, delete_pos)
