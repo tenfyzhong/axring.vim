@@ -1,0 +1,22 @@
+Before:
+  let g:axring_rings = [
+        \ ['true', 'false'],
+        \ ['one', 'two', 'three', 'four'],
+        \ ]
+  augroup get_ring
+    autocmd!
+    autocmd FileType python let b:axring_rings = [['if', 'elif']]
+  augroup END
+
+Execute (no found):
+  let actual = axring#get_ring('if')
+  AssertEqual [[], -1], actual
+
+Execute (found two):
+  let actual = axring#get_ring('two')
+  AssertEqual [['one', 'two', 'three', 'four'], 1], actual
+
+Execute (found python):
+  set ft=python
+  let actual = axring#get_ring('if')
+  AssertEqual [['if', 'elif'], 0], actual

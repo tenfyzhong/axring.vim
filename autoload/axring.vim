@@ -76,6 +76,46 @@ function! s:echo_ring(ring, current) abort "{{{
   echon ']'
 endfunction "}}}
 
+function! s:get_word() abort "{{{
+  let lnum = line('.')
+  let content = getline(lnum)
+
+  let word_pos = 0
+  let word_len = 0
+  let col = col('.')
+  if content[col-1] =~? '\m\s'
+    let word = ''
+  elseif content[col-1] =~? '\m\k'
+    let [word, word_pos, word_len] =
+          \<SID>get_word_by_keyword(content, col)
+  else
+    let [word, word_pos, word_len] = 
+          \<SID>get_word_by_punctuation(content, col)
+  endif
+  return [word, word_pos, word_len]
+  " echom printf('word: %s, pos: %d, len: %d', word, word_pos, word_len)
+endfunction "}}}
+
+function! axring#get_ring(word) abort "{{{
+  let global = get(g:, 'axring_rings', [])
+  let local = get(b:, 'axring_rings', [])
+  let rings = local + global
+
+  if a:word != ''
+    for ring in rings
+      let i = 0
+      let ring_len = len(ring)
+      while i < ring_len
+        if a:word ==? ring[i]
+          return [ring, i]
+        endif
+        let i += 1
+      endwhile
+    endfor
+  endif
+  return [[], -1]
+endfunction "}}}
+
 function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   " echom string(a:ring)
   let ring_len = len(a:ring)
@@ -160,59 +200,34 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   return [result, highlight_i]
 endfunction "}}} 
 
+
 function! axring#switch(key, count) abort "{{{
-  let global = get(g:, 'axring_rings', [])
-  let local = get(b:, 'axring_rings', [])
-  let rings = local + global
-
-  let lnum = line('.')
-  let content = getline(lnum)
-  let col = col('.')
-  let word = ''
-  let delete_pos = 0
-  let delete_len = 0
-  if content[col-1] =~? '\m\s'
-    let word = ''
-  elseif content[col-1] =~? '\m\k'
-    " let word = expand('<cword>')
-    let [word, delete_pos, delete_len] =
-          \<SID>get_word_by_keyword(content, col)
-  else
-    let [word, delete_pos, delete_len] = 
-          \<SID>get_word_by_punctuation(content, col)
-  endif
-  " echom printf('word: %s, pos: %d, len: %d', word, delete_pos, delete_len)
-
   let repeat = printf(":silent! call repeat#set(\"%s\", %d)\<cr>",
         \ a:key,
         \ a:count)
 
   let feedkeys = a:key
 
-  let direction = a:key ==# "\<c-a>" ? 1 : -1
+  let [word, word_pos, word_len] = <SID>get_word()
 
-  if word != ''
-    for ring in rings
-      let i = 0
-      let ring_len = len(ring)
-      while i < ring_len
-        if word ==? ring[i]
-          let next_i = (i+ring_len+a:count*direction)%ring_len
-          let next_word = ring[next_i]
-          let next_word = <SID>sync_case(word, next_word)
-          call cursor(lnum, delete_pos)
-          let feedkeys = printf(
-                \ "\"_c%dl%s\<esc>", delete_len, next_word)
-          " echom 'keys:'.feedkeys.repeat
-          if get(g:, 'axring_echo', 1)
-            call <SID>echo_ring(ring, next_i)
-          endif
-          exec 'silent! normal! '.feedkeys.repeat
-          return
-        endif
-        let i += 1
-      endwhile
-    endfor
+  let [ring, current] = axring#get_ring(word)
+
+  if !empty(ring) && current != -1
+    let direction = a:key ==# "\<c-a>" ? 1 : -1
+
+    let ring_len = len(ring)
+
+    let next_i = (current+ring_len+a:count*direction)%ring_len
+    let next_word = ring[next_i]
+    let next_word = <SID>sync_case(word, next_word)
+    let lnum = line('.')
+    call cursor(lnum, word_pos)
+    let feedkeys = printf(
+          \ "\"_c%dl%s\<esc>", word_len, next_word)
+    " echom 'keys:'.feedkeys.repeat
+    if get(g:, 'axring_echo', 1)
+      call <SID>echo_ring(ring, next_i)
+    endif
   endif
 
   exec 'silent! normal! '.feedkeys.repeat
