@@ -23,14 +23,15 @@ endfunction "}}}
 
 function! s:get_word_by_punctuation(content, col) abort "{{{
   let begin_i = a:col-1
-  while begin_i >= 0 && a:content[begin_i] !~? '\m\w\|\s\|[;()\[\]{}]'
+  let border = '\m\w\|\s\|[;()\[\]{}"''`]'
+  while begin_i >= 0 && a:content[begin_i] !~? border
     let begin_i -= 1
   endwhile
   let begin_i += 1
 
   let end_i = a:col
   let content_len = len(a:content)
-  while end_i < content_len && a:content[end_i] !~? '\m\w\|\s\|[;()\[\]{}]'
+  while end_i < content_len && a:content[end_i] !~? border
     let end_i += 1
   endwhile
   let end_i -= 1
@@ -76,7 +77,7 @@ function! s:echo_ring(ring, current) abort "{{{
   echon ']'
 endfunction "}}}
 
-function! s:get_word() abort "{{{
+function! axring#get_word() abort "{{{
   let lnum = line('.')
   let content = getline(lnum)
 
@@ -117,7 +118,7 @@ function! axring#get_ring(word) abort "{{{
 endfunction "}}}
 
 function! axring#echo_current_ring() abort "{{{
-  let [word, _, _] = <sid>get_word()
+  let [word, _, _] = axring#get_word()
   let [ring, current] = axring#get_ring(word)
   if !empty(ring) && current != -1
     call <SID>echo_ring(ring, current)
@@ -208,7 +209,6 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   return [result, highlight_i]
 endfunction "}}} 
 
-
 function! axring#switch(key, count) abort "{{{
   let repeat = printf(":silent! call repeat#set(\"%s\", %d)\<cr>",
         \ a:key,
@@ -216,7 +216,7 @@ function! axring#switch(key, count) abort "{{{
 
   let feedkeys = a:key
 
-  let [word, word_pos, word_len] = <SID>get_word()
+  let [word, word_pos, word_len] = axring#get_word()
 
   let [ring, current] = axring#get_ring(word)
 

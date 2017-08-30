@@ -1,0 +1,119 @@
+Given(0):
+  hello world
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['', 0, 0], actual
+
+Given(1):
+  hello world
+Execute:
+  call cursor(1, 2)
+  let actual = axring#get_word()
+  AssertEqual ['hello', 1, 5], actual
+
+Given(2):
+  hello.world
+Execute:
+  call cursor(1, 2)
+  let actual = axring#get_word()
+  AssertEqual ['hello', 1, 5], actual
+
+Given(3):
+  hello.world.tenfy
+Execute:
+  call cursor(1, 8)
+  let actual = axring#get_word()
+  AssertEqual ['world', 7, 5], actual
+
+Given(4):
+  if True == False
+Execute:
+  call cursor(1, 9)
+  let actual = axring#get_word()
+  AssertEqual ['==', 9, 2], actual
+
+Given(5):
+  if True==False
+Execute:
+  call cursor(1, 8)
+  let actual = axring#get_word()
+  AssertEqual ['==', 8, 2], actual
+
+Given(6):
+  for i++{}
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(7):
+  for i++;
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(8):
+  for i++()
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(9):
+  for i++[
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(10):
+  for i++]
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(11):
+  for i++}
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(12):
+  for i++)
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['++', 6, 2], actual
+
+Given(13):
+  let a+="hello"
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['+=', 6, 2], actual
+
+Given(14):
+  let a+='hello'
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['+=', 6, 2], actual
+
+Given(15):
+  let a+=`hello`
+Execute:
+  call cursor(1, 6)
+  let actual = axring#get_word()
+  AssertEqual ['+=', 6, 2], actual
+
+Given(16):
+  ;++i
+Execute:
+  call cursor(1, 2)
+  let actual = axring#get_word()
+  AssertEqual ['++', 2, 2], actual
+
