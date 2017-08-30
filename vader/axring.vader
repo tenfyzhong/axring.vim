@@ -1,0 +1,170 @@
+Before:
+  let g:axring_rings = [
+    \['true', 'false'],
+    \['one', 'two', 'three', 'four'],
+    \['==', '!='],
+    \['>', '<', '>=', '<='],
+    \['info', 'debug', 'warn'],
+    \['if', 'else'],
+    \['=', ':='],
+  \]
+  set iskeyword-=#
+  augroup axring
+    autocmd!
+    autocmd FileType python let b:axring_rings = [['if', 'elif']]
+    autocmd FileType c let b:axring_rings = [['ifdef', 'ifndef']]
+  augroup END
+
+Given(forward 1):
+  true
+Do:
+  \<c-a>
+Expect:
+  false
+
+Given(backword 1):
+  false
+Do:
+  \<c-x>
+Expect:
+  true
+
+Given(forward 1 -> begin):
+  false
+Do:
+  \<c-a>
+Expect:
+  true
+
+Given(backword 1 -> end):
+  true
+Do:
+  \<c-x>
+Expect:
+  false
+
+Given(forward 2):
+  one
+Do:
+  2\<c-a>
+Expect:
+  three
+
+Given(backword 2):
+  three
+Do:
+  2\<c-x>
+Expect:
+  one
+
+Given(forward -> itself):
+  one
+Do:
+  4\<c-a>
+Expect:
+  one
+
+Given(backword it self):
+  three
+Do:
+  4\<c-x>
+Expect:
+  three
+
+Given(== -> !=):
+  ==
+Do:
+  \<c-a>
+Expect:
+  !=
+
+Given(> -> <):
+  >
+Do:
+  \<c-a>
+Expect:
+  <
+
+Given(< -> >=):
+  <
+Do:
+  \<c-a>
+Expect:
+  >=
+
+Given(>= -> <=):
+  >=
+Do:
+  \<c-a>
+Expect:
+  <=
+
+Given(>= -> <=):
+  1>=2
+Do:
+  2|\<c-a>
+Expect:
+  1<=2
+
+Given:
+  truee
+Do:
+  \<c-a>
+Expect:
+  truee
+
+Given (rollback <c-a>):
+  hello 1
+Do:
+  \<c-a>
+Expect:
+  hello 2
+
+Given (rollback <c-x>):
+  hello 1
+Do:
+  \<c-x>
+Expect:
+  hello 0
+
+Given (test case, True -> False):
+  True
+Do:
+  \<c-a>
+Expect:
+  False
+
+Given (test case, TRUE -> FALSE):
+  TRUE
+Do:
+  \<c-a>
+Expect:
+  FALSE
+
+Given (char before and after word):
+  log.Info()
+Do:
+  5|\<c-a>
+Expect:
+  log.Debug()
+
+Given python(python if -> elif):
+  if
+Do:
+  \<c-a>
+Expect:
+  elif
+
+Given c(#ifdef -> #ifndef):
+  #ifdef
+Do:
+  2|\<c-a>
+Expect:
+  #ifndef
+
+Given (a=true):
+  a=true
+Do:
+  2|\<c-a>
+Expect:
+  a:=true
