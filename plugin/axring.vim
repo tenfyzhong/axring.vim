@@ -23,6 +23,8 @@ nnoremap <silent> <Plug>(axring#ctrl-a)
       \:<c-u> call axring#switch("\<c-a>", v:count1)<cr>
 nnoremap <silent> <Plug>(axring#ctrl-x) 
       \:<c-u> call axring#switch("\<c-x>", v:count1)<cr>
+nnoremap <silent> <Plug>(axring#echo_ring) 
+      \:<c-u> call axring#echo_current_ring()<cr>
 
 if !hasmapto("<Plug>(axring#ctrl-a)", 'n')
   silent! nmap <c-a> <Plug>(axring#ctrl-a)

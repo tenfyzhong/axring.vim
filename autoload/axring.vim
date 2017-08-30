@@ -116,6 +116,14 @@ function! axring#get_ring(word) abort "{{{
   return [[], -1]
 endfunction "}}}
 
+function! axring#echo_current_ring() abort "{{{
+  let [word, _, _] = <sid>get_word()
+  let [ring, current] = axring#get_ring(word)
+  if !empty(ring) && current != -1
+    call <SID>echo_ring(ring, current)
+  endif
+endfunction "}}}
+
 function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   " echom string(a:ring)
   let ring_len = len(a:ring)
