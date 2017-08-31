@@ -140,14 +140,27 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
     let text = '0:' . text
   endif
 
-  let result = [text]
+  let prefix = '['
+  let postfix = ']'
 
-  let max_len = a:max_width - 2
+  let wrap_prefix = '..'
+  let wrap_postfix = '..'
+
+  let max_len = a:max_width - 
+        \len(prefix) - 
+        \len(postfix) -  
+        \len(wrap_prefix . ', ') - 
+        \len(', ' . wrap_postfix)
   let right_i = a:current + 1
   let left_i = a:current - 1
   let highlight_i = 0
 
-  let current_len = len(a:ring[a:current])
+  let current_len = len(text)
+  if current_len >= max_len
+    return [[], -1]
+  endif
+
+  let result = [text]
 
 
   while right_i < ring_len && left_i >= 0 && current_len < max_len
@@ -205,6 +218,15 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
     let left_i -= 1
     let highlight_i += 1
   endwhile
+
+  if right_i < ring_len
+    call add(result, wrap_postfix)
+  endif
+
+  if left_i >= 0
+    call insert(result, wrap_prefix)
+    let highlight_i += 1
+  endif
 
   return [result, highlight_i]
 endfunction "}}} 

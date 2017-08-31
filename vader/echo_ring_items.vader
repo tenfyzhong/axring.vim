@@ -3,11 +3,11 @@ Before:
 
 Execute(0):
   let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 1, 10)
-  AssertEqual [['abcdefghjklmn'], 0], actual
+  AssertEqual [[], -1], actual
 
 Execute(1):
   let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 0, 6)
-  AssertEqual [['abcdefg'], 0], actual
+  AssertEqual [[], -1], actual
 
 Execute(2):
   let actual = axring#echo_ring_items(['a', 'b', 'c', 'd', 'e', 'f'], 1, 60)
@@ -17,3 +17,17 @@ Execute(3):
   let actual = axring#echo_ring_items(['a', 'b', 'c', 'd', 'e', 'f'], 5, 60)
   AssertEqual [['a', 'b', 'c', 'd', 'e', 'f'], 5], actual
 
+Execute(4):
+  let actual = axring#echo_ring_items(['abc', 'defg', 'hij', 'klmn', 'opq',
+                                      \'rst', 'uvw', 'xyz'], 0, '20')
+  AssertEqual [['abc', 'defg', '..'], 0], actual
+
+Execute(5):
+  let actual = axring#echo_ring_items(['abc', 'defg', 'hij', 'klmn', 'opq',
+                                      \'rst', 'uvw', 'xyz'], 7, '20')
+  AssertEqual [['..', 'uvw', 'xyz'], 2], actual
+
+Execute(6):
+  let actual = axring#echo_ring_items(['abc', 'defg', 'hij', 'klmn', 'opq',
+                                      \'rst', 'uvw', 'xyz'], 4, '20')
+  AssertEqual [['..', 'opq', 'rst', '..'], 1], actual
