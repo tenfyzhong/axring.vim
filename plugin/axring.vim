@@ -34,5 +34,5 @@ if !hasmapto("<Plug>(axring#ctrl-x)", 'n')
 endif
 
 if !hlexists('axring_ring')
-  highlight axring_ring term=bold cterm=bold ctermfg=Red guifg=Red
+  highlight axring_ring term=undercurl ctermfg=Red guifg=Red
 endif
