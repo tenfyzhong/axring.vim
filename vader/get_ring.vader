@@ -1,0 +1,19 @@
+Before:
+  let g:axring_rings = [
+        \ ['true', 'false'],
+        \ ['one', 'two', 'three', 'four'],
+        \ ]
+  let g:axring_rings_python = [['if', 'elif']]
+
+Execute (no found):
+  let actual = axring#get_ring('if', &filetype)
+  AssertEqual [[], -1], actual
+
+Execute (found two):
+  let actual = axring#get_ring('two', &filetype)
+  AssertEqual [['one', 'two', 'three', 'four'], 1], actual
+
+Execute (found python):
+  set ft=python
+  let actual = axring#get_ring('if', &filetype)
+  AssertEqual [['if', 'elif'], 0], actual
