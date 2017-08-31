@@ -1,0 +1,21 @@
+0.0.1:
+Init version. 
+
+`<c-a>` to select next word on the ring. 
+`<c-x>` to select previous word on the ring. 
+Echo the ring when select a word. 
+Support repeat.vim
+
+Mapping:
+<Plug>(axring#ctrl-a)
+<Plug>(axring#ctrl-x)
+<Plug>(axring#echo_ring)
+
+Options:
+g:axring_rings 
+g:axring_rings_{filetype}
+g:axring_echo 
+g:axring_echo_index 
+
+highlight
+axring_echo_current
