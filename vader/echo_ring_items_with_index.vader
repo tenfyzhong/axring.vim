@@ -1,13 +1,13 @@
 Before:
-  let g:axring_ring_echo_index = 1
+  let g:axring_echo_index = 1
 
 Execute(4):
-  let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 1, 10)
-  AssertEqual [['0:abcdefghjklmn'], 0], actual
+  let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 1, 40)
+  AssertEqual [['1:abcdefg', '0:abcdefghjklmn'], 1], actual
 
 Execute(5):
-  let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 0, 6)
-  AssertEqual [['0:abcdefg'], 0], actual
+  let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 0, 40)
+  AssertEqual [['0:abcdefg', '1:abcdefghjklmn'], 0], actual
 
 Execute(6):
   let actual = axring#echo_ring_items(['a', 'b', 'c', 'd', 'e', 'f'], 1, 60)

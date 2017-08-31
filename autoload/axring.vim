@@ -132,7 +132,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
     return []
   endif
 
-  let add_index = get(g:, 'axring_ring_echo_index', 1)
+  let add_index = get(g:, 'axring_echo_index', 1)
 
 
   let text = a:ring[a:current]

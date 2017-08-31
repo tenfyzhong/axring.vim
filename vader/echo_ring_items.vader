@@ -1,5 +1,5 @@
 Before:
-  let g:axring_ring_echo_index = 0
+  let g:axring_echo_index = 0
 
 Execute(0):
   let actual = axring#echo_ring_items(['abcdefg', 'abcdefghjklmn'], 1, 10)
