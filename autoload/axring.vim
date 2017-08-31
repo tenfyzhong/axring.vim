@@ -97,9 +97,9 @@ function! axring#get_word() abort "{{{
   " echom printf('word: %s, pos: %d, len: %d', word, word_pos, word_len)
 endfunction "}}}
 
-function! axring#get_ring(word) abort "{{{
+function! axring#get_ring(word, filetype) abort "{{{
   let global = get(g:, 'axring_rings', [])
-  let local = get(b:, 'axring_rings', [])
+  let local = get(g:, 'axring_rings_'.a:filetype, [])
   let rings = local + global
 
   if a:word != ''
@@ -119,7 +119,7 @@ endfunction "}}}
 
 function! axring#echo_current_ring() abort "{{{
   let [word, _, _] = axring#get_word()
-  let [ring, current] = axring#get_ring(word)
+  let [ring, current] = axring#get_ring(word, &filetype)
   if !empty(ring) && current != -1
     call <SID>echo_ring(ring, current)
   endif
@@ -218,7 +218,7 @@ function! axring#switch(key, count) abort "{{{
 
   let [word, word_pos, word_len] = axring#get_word()
 
-  let [ring, current] = axring#get_ring(word)
+  let [ring, current] = axring#get_ring(word, &filetype)
 
   if !empty(ring) && current != -1
     let direction = a:key ==# "\<c-a>" ? 1 : -1

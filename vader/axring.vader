@@ -8,12 +8,9 @@ Before:
     \['if', 'else'],
     \['=', ':='],
   \]
+  let g:axring_rings_python = [['if', 'elif']]
+  let g:axring_rings_c = [['ifdef', 'ifndef']]
   set iskeyword-=#
-  augroup axring
-    autocmd!
-    autocmd FileType python let b:axring_rings = [['if', 'elif']]
-    autocmd FileType c let b:axring_rings = [['ifdef', 'ifndef']]
-  augroup END
 
 Given(forward 1):
   true
