@@ -66,7 +66,7 @@ function! s:echo_ring(ring, current) abort "{{{
       echon ', '
     endif
     if i == highlight_i
-      echohl axring_ring
+      echohl axring_echo_current
       echon echos[i]
       echohl None
     else

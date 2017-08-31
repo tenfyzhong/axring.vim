@@ -36,8 +36,8 @@ if !hasmapto("<Plug>(axring#ctrl-x)", 'n')
   silent! nmap <c-x> <Plug>(axring#ctrl-x)
 endif
 
-if !hlexists('axring_ring')
-  highlight axring_ring term=undercurl ctermfg=Red guifg=Red
+if !hlexists('axring_echo_current')
+  highlight axring_echo_current term=undercurl ctermfg=Red guifg=Red
 endif
 
 let &cpo = save_cpo
