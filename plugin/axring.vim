@@ -16,6 +16,9 @@ if exists('g:axring_version')
   finish
 endif
 
+let save_cpo = &cpo
+set cpo&vim
+
 let g:axring_version = '0.0.1'
 lockvar g:axring_version
 
@@ -36,3 +39,5 @@ endif
 if !hlexists('axring_ring')
   highlight axring_ring term=undercurl ctermfg=Red guifg=Red
 endif
+
+let &cpo = save_cpo
