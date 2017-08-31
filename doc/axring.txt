@@ -1,0 +1,136 @@
+*axring* *axring.txt* author: tenfyzhong
+
+This help file explains the axring Vim Plugin. 
+================================================================================
+Contents:
+0. Introduction ------------------------------------ |axring-introduction|
+1. Install ----------------------------------------- |axring-install|
+2. Usage ------------------------------------------- |axring-usage|
+3. Mapping ----------------------------------------- |axring-mapping|
+4. Options ----------------------------------------- |axring-options|
+5. Highlight --------------------------------------- |axring-highlight|
+6. FAQ --------------------------------------------- |axring-faq|
+7. Contributions ----------------------------------- |axring-contributes|
+8. LICENSE ----------------------------------------- |axring-license|
+
+
+================================================================================
+0. Introduction                                             *axring-introduction*
+Enhance `<c-a>`, `<c-x>` ability to switch keywords. 
+
+Feature:
+1) `<c-a>` to select next word on the ring. 
+2) `<c-x>` to select previous word on the ring. 
+3) Echo the ring when select a word. 
+4) Support [repeat.vim][]
+
+================================================================================
+1. Install                                                       *axring-install*
+I suggest you to use a plugin manager, such vim-plug or others.
+- vim-plug
+```viml
+Plug 'tenfyzhong/axring.vim'
+```
+- Manual
+```
+git clone https://github.com/tenfyzhong/axring.vim.git ~/.vim/bundle/axring.vim
+echo 'set rtp+=~/.vim/bundle/axring.vim' >> ~/.vimrc
+vim -c 'helptag ~/.vim/bundle/axring.vim/doc' -c qa!
+```
+
+================================================================================
+2. Usage                                                           *axring-usage*
+1) Configure option |g:axring_ring|
+2) Edit a file.
+3) Place you cursor on a word which is in the |g:axring_ring|
+4) type `<c-a>` or `<c-x>`
+
+================================================================================
+3. Mapping                                                       *axring-mapping*
+                                                          *<Plug>(axring#ctrl-a)*
+<Plug>(axring#ctrl-a)
+mode: n
+Default: `<c-a>`
+Switch next item on the ring. It accept a number before map action, it will
+switch to the current+count item. 
+eg: >
+  nmap <c-a> <Plug>(axring#ctrl-a)
+<
+
+                                                          *<Plug>(axring#ctrl-x)*
+<Plug>(axring#ctrl-x)
+mode: n
+Default: `<c-x>`
+Switch previous item on the ring. It accept a number before map action, it will
+switch to the current-count item. 
+eg: >
+  nmap <c-x> <Plug>(axring#ctrl-x)
+<
+
+                                                       *<Plug>(axring#echo_ring)*
+<Plug>(axring#echo_ring)
+mode: n
+Default: None
+Echo current ring. 
+eg: >
+  nmap <leader>er <Plug>(axring#echo_ring)
+<
+
+================================================================================
+4. Options                                                       *axring-options*
+
+                                                                *g:axring_rings*
+* g:axring_rings 
+* g:axring_rings_{filetype}
+Default: [] 
+There's a list of ring. Every ring is a list of word. Every switch will select
+a word on the ring.
+eg: >
+  let g:axring_rings = [['true', 'false'], ['or', 'and']]
+  let g:axring_rings_go = [['byte', 'rune']]
+<
+If the current word is `true`, it will switch to `false`. If the current word
+is `and`, it will switch to `or`. 
+
+The `g:axring_rings_{filetype}` only works for the special filetype. 
+
+                                                                 *g:axring_echo*
+* g:axring_echo 
+Default: 1
+It will echo the ring when switch to next/previous if this option is true. 
+eg: >
+  let g:axring_echo = 0
+<
+
+                                                      *g:axring_ring_echo_index*
+* g:axring_echo_index 
+Default: 1
+It will echo the index which relative to current word. 
+eg: >
+  let g:axring_echo_index = 0
+<
+ 
+
+================================================================================
+5. highlight                                                   *axring-highlight*
+                                                            *axring_echo_current*
+* axring_echo_current
+Default: highlight axring_echo_current term=undercurl ctermfg=Red guifg=Red
+The echo message will highlight the current word use this highlight group if
+|g:axring_echo| is true.
+eg: >
+  highlight axring_echo_current term=undercurl ctermfg=Red guifg=Red
+<
+
+================================================================================
+6. FAQ                                                               *axring-faq*
+
+================================================================================
+7. Contributions                                             *axring-contributes*
+Contributions and pull requests are welcome.
+
+================================================================================
+8. LICENSE                                                       *axring-license*
+MIT License Copyright (c) 2017 tenfyzhong
+
+" vim:ft=help:iskeyword+=-:iskeyword+=58:iskeyword+=#,(,),<,>:shiftwidth=2:softtabstop=2
