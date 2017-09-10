@@ -117,12 +117,26 @@ Do:
 Expect:
   hello 2
 
+Given (rollback n<c-a>):
+  hello 1
+Do:
+  10\<c-a>
+Expect:
+  hello 11
+
 Given (rollback <c-x>):
   hello 1
 Do:
   \<c-x>
 Expect:
   hello 0
+
+Given (rollback n<c-x>):
+  hello 10
+Do:
+  5\<c-x>
+Expect:
+  hello 5
 
 Given (test case, True -> False):
   True
