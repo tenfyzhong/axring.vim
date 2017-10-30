@@ -19,7 +19,7 @@ endif
 let save_cpo = &cpo
 set cpo&vim
 
-let g:axring_version = '0.0.1'
+let g:axring_version = '0.0.2'
 lockvar g:axring_version
 
 nnoremap <silent> <Plug>(axring#ctrl-a) 
