@@ -3,7 +3,7 @@
 "   brief: 
 " VIM Version: 8.0
 "  author: tenfyzhong
-"   email: tenfyzhong@qq.com
+"   email: tenfy@tenfy.cn
 " created: 2017-08-30 09:10:37
 "==============================================================
 
@@ -254,11 +254,10 @@ function! axring#switch(key, count) abort "{{{
     call cursor(lnum, word_pos)
     let feedkeys = printf(
           \ "\"_c%dl%s\<esc>", word_len, next_word)
-    " echom 'keys:'.feedkeys.repeat
     if get(g:, 'axring_echo', 1)
       call <SID>echo_ring(ring, next_i)
     endif
   endif
 
-  exec 'silent! normal! '.feedkeys.repeat
+  exec 'silent! normal! '.a:count.feedkeys.repeat
 endfunction "}}}

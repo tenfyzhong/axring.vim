@@ -3,7 +3,7 @@
 "   brief: 
 " VIM Version: 8.0
 "  author: tenfyzhong
-"   email: tenfyzhong@qq.com
+"   email: tenfy@tenfy.cn
 " created: 2017-08-30 09:03:33
 "==============================================================
 
@@ -19,7 +19,7 @@ endif
 let save_cpo = &cpo
 set cpo&vim
 
-let g:axring_version = '0.0.1'
+let g:axring_version = '0.0.2'
 lockvar g:axring_version
 
 nnoremap <silent> <Plug>(axring#ctrl-a) 
