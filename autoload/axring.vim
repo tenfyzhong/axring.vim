@@ -232,10 +232,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
 endfunction "}}} 
 
 function! axring#switch(key, count) abort "{{{
-  let repeat = printf(":silent! call repeat#set(\"%s\", %d)\<cr>",
-        \ a:key,
-        \ a:count)
-
+  let t1 = reltimefloat(reltime())
   let feedkeys = a:key
 
   let [word, word_pos, word_len] = axring#get_word()
@@ -252,12 +249,18 @@ function! axring#switch(key, count) abort "{{{
     let next_word = <SID>sync_case(word, next_word)
     let lnum = line('.')
     call cursor(lnum, word_pos)
-    let feedkeys = printf(
-          \ "\"_c%dl%s\<esc>", word_len, next_word)
+    let store_a = @a
+    let @a = next_word
+    let cmd = printf('silent! normal! "_d%dl"aP', word_len)
+    exec cmd
+    let @a = store_a
+    let t2 = reltimefloat(reltime())
+    echom printf('time cost %f', t2 - t1)
     if get(g:, 'axring_echo', 1)
       call <SID>echo_ring(ring, next_i)
     endif
+  else
+    exec 'silent! normal! '.a:count.feedkeys
   endif
 
-  exec 'silent! normal! '.a:count.feedkeys.repeat
 endfunction "}}}
