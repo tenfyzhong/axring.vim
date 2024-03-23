@@ -1,5 +1,5 @@
 # axring.vim
-[![Build Status](https://travis-ci.org/tenfyzhong/axring.vim.svg?branch=master)](https://travis-ci.org/tenfyzhong/axring.vim)
+[![test](https://github.com/tenfyzhong/axring.vim/actions/workflows/test.yml/badge.svg)](https://github.com/tenfyzhong/axring.vim/actions/workflows/test.yml)
 [![GitHub tag](https://img.shields.io/github/tag/tenfyzhong/axring.vim.svg)](https://github.com/tenfyzhong/axring.vim/tags)
 [![doc](https://img.shields.io/badge/doc-%3Ah%20axring-yellow.svg?style=flat)](https://github.com/tenfyzhong/axring.vim/blob/master/doc/axring.txt)
 ![Vim Version](https://img.shields.io/badge/support-Vim%207.4%E2%86%91or%20NVIM-yellowgreen.svg?style=flat)
