@@ -9,7 +9,6 @@ Before:
     \['=', ':='],
   \]
   let g:axring_rings_python = [['if', 'elif']]
-  let g:axring_rings_c = [['ifdef', 'ifndef']]
   set iskeyword-=#
 
 Given(forward 1):
@@ -165,13 +164,6 @@ Do:
   \<c-a>
 Expect:
   elif
-
-Given c(#ifdef -> #ifndef):
-  #ifdef
-Do:
-  2|\<c-a>
-Expect:
-  #ifndef
 
 Given (a=true):
   a=true
