@@ -6,3 +6,5 @@ jobs:
   test:
     name: test
     uses: tenfyzhong/workflows/.github/workflows/vader.yml@vader
+    with:
+      test-pattern: 'vader/*.vader'
