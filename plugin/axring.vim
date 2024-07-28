@@ -19,13 +19,13 @@ endif
 let save_cpo = &cpo
 set cpo&vim
 
-let g:axring_version = '0.0.2'
+let g:axring_version = '0.1.0'
 lockvar g:axring_version
 
 nnoremap <silent> <Plug>(axring#ctrl-a) 
-      \:<c-u> call axring#switch("\<c-a>", v:count1)<cr>
+      \:<c-u> call axring#switch("\<c-a>")<cr>
 nnoremap <silent> <Plug>(axring#ctrl-x) 
-      \:<c-u> call axring#switch("\<c-x>", v:count1)<cr>
+      \:<c-u> call axring#switch("\<c-x>")<cr>
 nnoremap <silent> <Plug>(axring#echo_ring) 
       \:<c-u> call axring#echo_current_ring()<cr>
 

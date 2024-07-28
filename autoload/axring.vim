@@ -231,7 +231,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   return [result, highlight_i]
 endfunction "}}} 
 
-function! axring#switch(key, count) abort "{{{
+function! axring#switch(key) abort "{{{
   let [word, word_pos, word_len] = axring#get_word()
   let [ring, current] = axring#get_ring(word, &filetype)
 
@@ -240,7 +240,7 @@ function! axring#switch(key, count) abort "{{{
 
     let ring_len = len(ring)
 
-    let next_i = (current+ring_len+a:count*direction)%ring_len
+    let next_i = (current+ring_len+v:count1*direction)%ring_len
     let next_word = ring[next_i]
     let next_word = <SID>sync_case(word, next_word)
     let lnum = line('.')
@@ -254,7 +254,11 @@ function! axring#switch(key, count) abort "{{{
     endif
   else
     let feedkeys = a:key
-    exec 'silent! normal! '.a:count.feedkeys
+    exec 'silent! normal! '.v:count1.feedkeys
   endif
+
+  try
+    silent! call repeat#set(a:key, v:count1)
+  endtry
 
 endfunction "}}}
