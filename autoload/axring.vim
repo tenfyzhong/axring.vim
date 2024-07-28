@@ -1,12 +1,3 @@
-"==============================================================
-"  file: axring.vim
-"   brief: 
-" VIM Version: 8.0
-"  author: tenfyzhong
-"   email: tenfy@tenfy.cn
-" created: 2017-08-30 09:10:37
-"==============================================================
-
 function! s:sync_case(from, to) abort "{{{ sync case from `from` to `to`
   " from    to
   " true    false
@@ -57,8 +48,7 @@ function! s:get_word_by_keyword(content, col) abort "{{{
 endfunction "}}}
 
 function! s:echo_ring(ring, current) abort "{{{
-  let [echos, highlight_i] = 
-        \axring#echo_ring_items(a:ring, a:current, winwidth(winnr()))
+  let [echos, highlight_i] = axring#echo_ring_items(a:ring, a:current, winwidth(winnr()))
   echon '['
   let i = 0
   for item in echos
@@ -87,11 +77,9 @@ function! axring#get_word() abort "{{{
   if content[col-1] =~? '\m\s'
     let word = ''
   elseif content[col-1] =~? '\m\k'
-    let [word, word_pos, word_len] =
-          \<SID>get_word_by_keyword(content, col)
+    let [word, word_pos, word_len] = <SID>get_word_by_keyword(content, col)
   else
-    let [word, word_pos, word_len] = 
-          \<SID>get_word_by_punctuation(content, col)
+    let [word, word_pos, word_len] = <SID>get_word_by_punctuation(content, col)
   endif
   return [word, word_pos, word_len]
   " echom printf('word: %s, pos: %d, len: %d', word, word_pos, word_len)
@@ -146,11 +134,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   let wrap_prefix = '..'
   let wrap_postfix = '..'
 
-  let max_len = a:max_width - 
-        \len(prefix) - 
-        \len(postfix) -  
-        \len(wrap_prefix . ', ') - 
-        \len(', ' . wrap_postfix)
+  let max_len = a:max_width - len(prefix) - len(postfix) -  len(wrap_prefix . ', ') - len(', ' . wrap_postfix)
   let right_i = a:current + 1
   let left_i = a:current - 1
   let highlight_i = 0
@@ -165,7 +149,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
 
   while right_i < ring_len && left_i >= 0 && current_len < max_len
     let text = a:ring[right_i]
-    if add_index 
+    if add_index
         let text = printf('%d:%s', right_i-a:current, text)
     endif
     let right_len = len(text)
@@ -229,7 +213,7 @@ function! axring#echo_ring_items(ring, current, max_width) abort "{{{
   endif
 
   return [result, highlight_i]
-endfunction "}}} 
+endfunction "}}}
 
 function! axring#switch(key) abort "{{{
   let [word, word_pos, word_len] = axring#get_word()
