@@ -236,13 +236,8 @@ function! axring#switch(key) abort "{{{
 
     let cur_col = col('.')
 
-    " if the cur_col is not equal to the word_pos
-    " it means deleted to the end and the cursor is backwrard 1 column
-    if cur_col != word_pos
-        let paste_cmd = 'p'
-    else
-        let paste_cmd = 'P'
-    endif
+    " If cursor moved back, we deleted at EOL; use 'p' to paste after.
+    let paste_cmd = (cur_col != word_pos) ? 'p' : 'P'
     exec printf('silent! normal! "a%s', paste_cmd)
 
     let @a = store_a
