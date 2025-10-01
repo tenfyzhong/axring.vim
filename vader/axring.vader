@@ -25,6 +25,20 @@ Do:
 Expect:
   true
 
+Given(forward 1 -> true end):
+  a = true
+Do:
+  5|\<c-a>
+Expect:
+  a = false
+
+Given(forward 1 -> true end):
+  if a == true; a
+Do:
+  9|\<c-a>
+Expect:
+  if a == false; a
+
 Given(forward 1 -> begin):
   false
 Do:
