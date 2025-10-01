@@ -231,7 +231,20 @@ function! axring#switch(key) abort "{{{
     call cursor(lnum, word_pos)
     let store_a = @a
     let @a = next_word
-    exec printf('silent! normal! "_d%dl"aP', word_len)
+
+    exec printf('silent! normal! "_d%dl', word_len)
+
+    let cur_col = col('.')
+
+    " if the cur_col is not equal to the word_pos
+    " it means deleted to the end and the cursor is backwrard 1 column
+    if cur_col != word_pos
+        let paste_cmd = 'p'
+    else
+        let paste_cmd = 'P'
+    endif
+    exec printf('silent! normal! "a%s', paste_cmd)
+
     let @a = store_a
     if get(g:, 'axring_echo', 1)
       call <SID>echo_ring(ring, next_i)
