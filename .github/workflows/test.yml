@@ -1,10 +1,10 @@
 name: test
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   test:
     name: test
     uses: tenfyzhong/workflows/.github/workflows/vader.yml@main
     with:
-      test-pattern: 'vader/*.vader'
+      test-pattern: "vader/*.vader"
